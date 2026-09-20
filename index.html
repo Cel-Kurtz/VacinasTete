@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio de Vacinação Infantil</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #16a34a;
+            --error: #dc2626;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        /* Lista de Pacientes */
+        .patient-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .patient-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 5px solid var(--primary);
+        }
+
+        .patient-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        /* Área do Jogo/Caso */
+        .game-screen {
+            display: none;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-box, .card-box {
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .caderneta-img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid #cbd5e1;
+            transition: opacity 0.2s;
+        }
+
+        .caderneta-img:hover {
+            opacity: 0.9;
+        }
+
+        .checklist {
+            margin-top: 20px;
+        }
+
+        .checklist label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-back {
+            background-color: #64748b;
+            margin-bottom: 20px;
+            width: auto;
+            padding: 8px 16px;
+        }
+
+        .btn-back:hover {
+            background-color: #475569;
+        }
+
+        /* Feedback */
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.success {
+            background-color: #dcfce7;
+            color: var(--success);
+            border: 1px solid #bbf7d0;
+        }
+
+        .feedback.error {
+            background-color: #fee2e2;
+            color: var(--error);
+            border: 1px solid #fecaca;
+        }
+
+        /* Modal de Zoom da Imagem */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+        }
+
+        .modal span {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Desafio de Vacinação Infantil</h1>
+        <p>Selecione um caso clínico abaixo, analise o histórico e a caderneta para identificar falhas vacinais.</p>
+    </header>
+
+    <!-- Tela 1: Lista de Pacientes -->
+    <div id="listView" class="patient-list">
+        <!-- Os pacientes serão injetados via JavaScript -->
+    </div>
+
+    <!-- Tela 2: Área de Avaliação do Caso -->
+    <div id="gameView" class="game-screen">
+        <button class="btn btn-back" onclick="voltarParaLista()">← Voltar aos Casos</button>
+        <h2 id="patientNameTitle">Nome do Paciente</h2>
+        <p><strong>Idade:</strong> <span id="patientAge"></span></p>
+
+        <div class="workspace">
+            <!-- Esquerda: Histórico e Checklist -->
+            <div class="info-box">
+                <h3>Histórico Clínico</h3>
+                <p id="patientHistory"></p>
+
+                <h3 style="margin-top: 20px;">Avaliação: Marque as vacinas FALTANTES</h3>
+                <div class="checklist" id="vaccineChecklist">
+                    <!-- Checkboxes dinâmicos -->
+                </div>
+
+                <button class="btn" onclick="verificarResposta()">Enviar Avaliação</button>
+                <div id="feedbackBox" class="feedback"></div>
+            </div>
+
+            <!-- Direita: Caderneta -->
+            <div class="card-box">
+                <h3>Caderneta de Vacinação</h3>
+                <p style="font-size: 13px; color: #64748b;">Clique na imagem para ampliar e ler os carimbos.</p>
+                <img id="patientCardImg" class="caderneta-img" src="" alt="Caderneta de Vacinação" onclick="abrirZoom(this.src)">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Zoom -->
+<div id="zoomModal" class="modal" onclick="fecharZoom()">
+    <span onclick="fecharZoom()">&times;</span>
+    <img id="imgModalZoom" src="">
+</div>
+
+<script>
+    // --- SEU BANCO DE DADOS DE PACIENTES (Fácil de editar abaixo) ---
+    const bancoDeDados = [
+        {
+            id: 1,
+            nome: "Lucas Silva",
+            idade: "4 meses",
+            historico: "Lactente trazido para consulta de rotina. A mãe relata que perdeu o cartão anterior e tomou apenas as vacinas de recém-nascido no maternidade.",
+            imagemCaderneta: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1PyY638jCsXM8TTvFeIdlLDPo5bFMST0ybF1ZlOR930PKgeA8ulFGTxmX&s=10", // Imagem ilustrativa
+            opcoesDisponiveis: ["BCG", "Hepatite B (1ª dose)", "Pentavalente (1ª e 2ª doses)", "VIP (1ª e 2ª doses)", "Pneumocócica 10 (1ª e 2ª doses)", "Rotavírus (1ª e 2ª doses)"],
+            vacinasFaltantes: ["Pentavalente (1ª e 2ª doses)", "VIP (1ª e 2ª doses)", "Pneumocócica 10 (1ª e 2ª doses)", "Rotavírus (1ª e 2ª doses)"]
+        },
+        {
+            id: 2,
+            nome: "Mariana Souza",
+            idade: "12 meses (1 ano)",
+            historico: "Comparece à UBS para pesagem. A mãe acredita que o calendário de 1 ano está completo.",
+            imagemCaderneta: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80", // Imagem ilustrativa
+            opcoesDisponiveis: ["Tríplice Viral (1ª dose)", "Meningocócica C (Reforço)", "Pneumocócica 10 (Reforço)", "Hepatite A"],
+            vacinasFaltantes: ["Meningocócica C (Reforço)", "Hepatite A"]
+        }
+    ];
+
+    let pacienteAtual = null;
+
+    // Inicializar a lista na tela
+    function carregarLista() {
+        const listContainer = document.getElementById('listView');
+        listContainer.innerHTML = '';
+
+        bancoDeDados.forEach(paciente => {
+            const card = document.createElement('div');
+            card.className = 'patient-card';
+            card.innerHTML = `
+                <h3>${paciente.nome}</h3>
+                <p><strong>Idade:</strong> ${paciente.idade}</p>
+                <p style="font-size: 14px; color: #64748b;">Clique para analisar o caso →</p>
+            `;
+            card.onclick = () => abrirCaso(paciente.id);
+            listContainer.appendChild(card);
+        });
+    }
+
+    function abrirCaso(id) {
+        pacienteAtual = bancoDeDados.find(p => p.id === id);
+        
+        document.getElementById('patientNameTitle').innerText = pacienteAtual.nome;
+        document.getElementById('patientAge').innerText = pacienteAtual.idade;
+        document.getElementById('patientHistory').innerText = pacienteAtual.historico;
+        document.getElementById('patientCardImg').src = pacienteAtual.imagemCaderneta;
+
+        // Montar checklist
+        const checklistContainer = document.getElementById('vaccineChecklist');
+        checklistContainer.innerHTML = '';
+        
+        pacienteAtual.opcoesDisponiveis.forEach((vacina, index) => {
+            checklistContainer.innerHTML += `
+                <label>
+                    <input type="checkbox" value="${vacina}" name="vacinaCheck"> ${vacina}
+                </label>
+            `;
+        });
+
+        // Resetar feedback
+        document.getElementById('feedbackBox').style.display = 'none';
+        document.getElementById('feedbackBox').className = 'feedback';
+
+        // Alternar telas
+        document.getElementById('listView').style.display = 'none';
+        document.getElementById('gameView').style.display = 'block';
+    }
+
+    function voltarParaLista() {
+        document.getElementById('listView').style.display = 'grid';
+        document.getElementById('gameView').style.display = 'none';
+    }
+
+    function verificarResposta() {
+        const checkboxes = document.querySelectorAll('input[name="vacinaCheck"]:checked');
+        const selecionadas = Array.from(checkboxes).map(cb => cb.value);
+
+        // Validar se o array selecionado bate exatamente com as faltantes
+        const acertou = 
+            selecionadas.length === pacienteAtual.vacinasFaltantes.length &&
+            selecionadas.every(v => pacienteAtual.vacinasFaltantes.includes(v));
+
+        const feedbackBox = document.getElementById('feedbackBox');
+        feedbackBox.style.display = 'block';
+
+        if (acertou) {
+            feedbackBox.className = 'feedback success';
+            feedbackBox.innerText = 'Parabéns! Você identificou corretamente todas as vacinas em falta para este caso.';
+        } else {
+            feedbackBox.className = 'feedback error';
+            feedbackBox.innerText = 'Atenção: A sua seleção de vacinas faltantes não está correta. Revise o cartão e o histórico clínico!';
+        }
+    }
+
+    function abrirZoom(src) {
+        document.getElementById('imgModalZoom').src = src;
+        document.getElementById('zoomModal').style.display = 'flex';
+    }
+
+    function fecharZoom() {
+        document.getElementById('zoomModal').style.display = 'none';
+    }
+
+    // Executar ao carregar a página
+    carregarLista();
+</script>
+
+</body>
+</html>
