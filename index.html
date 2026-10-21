@@ -243,26 +243,337 @@
 
 <script>
     // --- SEU BANCO DE DADOS DE PACIENTES (Fácil de editar abaixo) ---
-    const bancoDeDados = [
-        {
-            id: 1,
-            nome: "Lucas Silva",
-            idade: "Primeiro dia de vida",
-            historico: "Recém-nascido a termo, com 3.100 g e boas condições clínicas, recebeu doses de vacina ainda na maternidade, com 12 horas de vida.",
-            imagemCaderneta: "https://github.com/Cel-Kurtz/VacinasTete/blob/main/Caderneta%201.jpg?raw=true", // Imagem ilustrativa
-            opcoesDisponiveis: ["Vacina BCG (dose única)", "Vacina penta (DTP+Hib+HB) (1ª dose)", "Vacina poliomielite inativada VIP (1ª dose)", "Hepatite B (1 dose)", "Vacina meningocócica C (1ª dose)", "Vacina rotavírus humano (1ª dose)"],
-            vacinasFaltantes: ["Vacina BCG (dose única)", "Hepatite B (1 dose)"]
-        },
-        {
-            id: 2,
-            nome: "Mariana Souza",
-            idade: "2 meses",
-            historico: "Comparece à UBS para pesagem. A mãe solicita atuaização da vacinação.",
-            imagemCaderneta: "https://raw.githubusercontent.com/Cel-Kurtz/VacinasTete/refs/heads/main/Caderneta%202.jpg", // Imagem ilustrativa
-            opcoesDisponiveis: ["Vacina penta (DTP+Hib+HB) (1ª dose)", "Vacina influenza trivalente", "Vacina rotavírus humano (1ª dose)", "Vacina meningocócica C (1ª dose)", "Vacina pneumocócica 20-valente (1ª dose)", "Vacina poliomielite inativada VIP (1ª dose)"],
-            vacinasFaltantes: ["Vacina penta (DTP+Hib+HB) (1ª dose)" ,"Vacina rotavírus humano (1ª dose)", "Vacina poliomielite inativada VIP (1ª dose)", "Vacina pneumocócica 20-valente (1ª dose)"]
-        }
-    ];
+   const bancoDeDados = [
+    {
+        id: 12,
+        nome: "Julio Cesar",
+        idade: "4 anos",
+        historico: "Júlio Cesar de 4 anos, comparece à Unidade Básica de Saúde (UBS) acompanhada pela mãe para consulta de rotina e atualização da Caderneta da Criança. Encontra-se em boas condições clínicas, sem contraindicações aparentes à vacinação, e precisa receber as vacinas recomendadas para sua faixa etária.",
+        opcoesDisponiveis: [
+            "Vacina adsorvida difteria, tétano e coqueluche (DTP) — 2º reforço",
+            "Vacina febre amarela (atenuada) — 1° reforço",
+            "Vacina poliomielite inativada VIP — 2º reforço",
+            "Vacina varicela (monovalente) — 2° dose",
+            "Vacina penta (DTP + Hib + hepatite B) — 1ª dose",
+            "Vacina rotavírus humano — 1ª dose",
+            "Vacina meningocócica C — 1ª dose"
+        ],
+        vacinasFaltantes: [
+            "Vacina adsorvida difteria, tétano e coqueluche (DTP) — 2º reforço",
+            "Vacina febre amarela (atenuada) — 1° reforço",
+            "Vacina poliomielite inativada VIP — 2º reforço",
+            "Vacina varicela (monovalente) — 2° dose"
+        ]
+    },
+    {
+        id: 2,
+        nome: "Marina Souza",
+        idade: "2 meses",
+        historico: "Comparece à UBS para pesagem. A mãe solicita atualização da vacinação.",
+        imagemCaderneta: "https://raw.githubusercontent.com/Cel-Kurtz/VacinasTete/refs/heads/main/Caderneta%202.jpg",
+        opcoesDisponiveis: [
+            "Vacina penta (DTP+Hib+HB) (1ª dose)",
+            "Vacina influenza trivalente",
+            "Vacina rotavírus humano (1ª dose)",
+            "Vacina meningocócica C (1ª dose)",
+            "Vacina pneumocócica 20-valente (1ª dose)",
+            "Vacina poliomielite inativada VIP (1ª dose)"
+        ],
+        vacinasFaltantes: [
+            "Vacina penta (DTP+Hib+HB) (1ª dose)",
+            "Vacina rotavírus humano (1ª dose)",
+            "Vacina pneumocócica 20-valente (1ª dose)",
+            "Vacina poliomielite inativada VIP (1ª dose)"
+        ]
+    },
+    {
+        id: 15,
+        nome: "Miguel Alves",
+        idade: "10 anos",
+        historico: "Com 10 anos de idade, foi levada à Unidade Básica de Saúde pela mãe devido a um quadro leve de dor de garganta e tosse seca iniciado há dois dias. Durante o atendimento, o médico assistente revisou o cartão de vacinação da paciente e identificou que ela estava elegível para iniciar o esquema com uma vacina.",
+        opcoesDisponiveis: [
+            "Vacina pneumocócica 20-valente (2 doses)",
+            "COVID-19 (2ª dose)",
+            "Vacina dengue DNG4 (2 doses, com intervalo de 3 meses entre as doses)",
+            "Poliomielite inativada VIP (3ª dose)",
+            "Influenza trivalente (1ª dose)",
+            "Vacina dengue DNG4 (3 doses, com intervalo de 3 meses entre as doses)"
+        ],
+        vacinasFaltantes: [
+            "Vacina dengue DNG4 (2 doses, com intervalo de 3 meses entre as doses)"
+        ]
+    },
+    {
+        id: 1,
+        nome: "Lucas Silva",
+        idade: "Primeiro dia de vida",
+        historico: "Recém-nascido a termo, com 3.100 g e boas condições clínicas, precisa receber doses de vacina ainda na maternidade, com 12 horas de vida.",
+        imagemCaderneta: "https://raw.githubusercontent.com/Cel-Kurtz/VacinasTete/refs/heads/main/Caderneta%201.jpg",
+        opcoesDisponiveis: [
+            "Vacina BCG (dose única)",
+            "Vacina penta (DTP+Hib+HB) (1ª dose)",
+            "Vacina poliomielite inativada VIP (1ª dose)",
+            "Hepatite B (1 dose)",
+            "Vacina meningocócica C (1ª dose)",
+            "Vacina rotavírus humano (1ª dose)"
+        ],
+        vacinasFaltantes: [
+            "Vacina BCG (dose única)",
+            "Hepatite B (1 dose)"
+        ]
+    },
+    {
+        id: 11,
+        nome: "Vicente Ferreira",
+        idade: "15 meses",
+        historico: "Vicente comparece a Unidade Básica de Saúde (UBS) para sua consulta de puericultura acompanhado de sua tia. Durante o atendimento, a enfermeira responsável verifica a caderneta de vacinação de Vicente e orienta a tia sobre as vacinas recomendadas para a idade dele.",
+        opcoesDisponiveis: [
+            "Vacina DTP (1ª dose reforço)",
+            "Vacina Poliomielite inativada VIP (1ª dose reforço)",
+            "Vacina tríplice viral SCR (2ª dose)",
+            "Vacina varicela (1ª dose)",
+            "Vacina hepatite A (1ª dose)"
+        ],
+        vacinasFaltantes: [
+            "Vacina varicela (1ª dose)",
+            "Vacina hepatite A (1ª dose)"
+        ]
+    },
+    {
+        id: 5,
+        nome: "Ana",
+        idade: "5 meses",
+        historico: "Ana, comparece à Unidade Básica de Saúde (UBS) acompanhada pela mãe para consulta de puericultura e atualização da caderneta de vacinação. Ao analisar a caderneta, o profissional de saúde verifica que a criança recebeu as vacinas previstas ao nascer, aos 2 meses e aos 3 meses, bem como as doses correspondentes aos 4 meses. Não há registro de doses atrasadas. Durante a consulta, a mãe pergunta: “Doutor(a), minha filha completou 5 meses. Qual vacina ela precisa tomar hoje?”",
+        opcoesDisponiveis: [
+            "Vacina hepatite B (1°dose)",
+            "Vacina BCG (dose única)",
+            "Vacina penta (DTP+Hib+HB) (1ª dose)",
+            "Vacina poliomielite inativada VIP (1ª dose)",
+            "Vacina rotavírus humano (1ª dose)",
+            "Vacina pneumocócica 20-valente (1ª dose)",
+            "Vacina meningocócica C (1ª dose)",
+            "Vacina penta (DTP+Hib+HB) (2ª dose)",
+            "Vacina poliomielite inativada VIP (2ª dose)",
+            "Vacina rotavírus humano (2ª dose)",
+            "Vacina pneumocócica 10-valente (2ª dose)",
+            "Vacina meningocócica C (2ª dose)",
+            "Vacina penta (DTP+Hib+HB) (3ª dose)",
+            "Vacina poliomielite inativada VIP (3ª dose)",
+            "Vacina influenza trivalente (1ª dose)",
+            "Vacina covid-19 (1ª dose)"
+        ],
+        vacinasFaltantes: [
+            "Vacina meningocócica C (2ª dose)"
+        ]
+    },
+    {
+        id: 18,
+        nome: "Thiago Rocha",
+        idade: "24 anos",
+        historico: "Thiago comparece à UBS com sua caderneta para atualização. O profissional de saúde verifica que ele já possui esquema completo para Hepatite B, Tríplice viral e Febre Amarela. O último registro de vacinação em sua caderneta foi feito aos 14 anos de idade. Qual vacina está indicada para a consulta de hoje?",
+        opcoesDisponiveis: [
+            "Vacina dupla adulto dT (4ª dose / reforço)",
+            "Vacina dupla adulto dT (1ª dose) e Hepatite B (reforço)",
+            "Vacina DTP (reforço)",
+            "Vacina meningocócica ACWY (dose única)"
+        ],
+        vacinasFaltantes: [
+            "Vacina dupla adulto dT (4ª dose / reforço)"
+        ]
+    },
+    {
+        id: 8,
+        nome: "Valentina Martins Lemos",
+        idade: "7 meses",
+        historico: "Valentina Martins Lemos, lactente de 7 meses, é trazida pela genitora ao posto de saúde da família para acompanhamento de rotina (puericultura) e revisão do status imunológico. Ao exame físico, a paciente apresenta desenvolvimento antropométrico adequado para a faixa etária, registrando peso de 7,8 kg e comprimento de 68 cm. A análise da caderneta de saúde revela adesão completa ao calendário, com todas as profilaxias aplicadas desde o nascimento até o sexto mês. Não existem esquemas em atraso. Assim, a mãe realiza a solicitação das vacinas necessárias para a idade atual de Valentina.",
+        opcoesDisponiveis: [
+            "COVID-19 (2ª dose)",
+            "Vacina penta (DTP+Hib+HB) (3ª dose)",
+            "Poliomielite inativada VIP (3ª dose)",
+            "Influenza trivalente (1ª dose)",
+            "Vacina rotavírus humano (2ª dose)"
+        ],
+        vacinasFaltantes: [
+            "COVID-19 (2ª dose)"
+        ]
+    },
+    {
+        id: 13,
+        nome: "Kayan Pitaguary",
+        idade: "5 anos",
+        historico: "Indígena de 5 anos de idade e sem histórico vacinal prévio com vacinas pneumocócicas conjugadas, foi avaliado em um posto de saúde em área de transição para imunização. Considerando a indicação específica da vacina para essa população.",
+        opcoesDisponiveis: [
+            "Vacina pneumocócica 20-valente (2 doses)",
+            "COVID-19 (2ª dose)",
+            "Vacina penta (DTP+Hib+HB) (1ª dose)",
+            "Poliomielite inativada VIP (3ª dose)",
+            "Influenza trivalente (1ª dose)",
+            "Vacina pneumocócica 20-valente (1 dose)"
+        ],
+        vacinasFaltantes: [
+            "Vacina pneumocócica 20-valente (1 dose)"
+        ]
+    },
+    {
+        id: 3,
+        nome: "Maitê dos Santos",
+        idade: "3 meses",
+        historico: "Lactente de 3 meses comparece à consulta de puericultura acompanhado pela mãe para acompanhamento de rotina. A mãe, sem queixas, solicita avaliação do crescimento e do desenvolvimento da filha e busca orientação para verificar se a caderneta de vacinação está em dia, demonstrando preocupação com possíveis atrasos no esquema vacinal. Criança previamente hígida, ativa e em bom estado geral.",
+        opcoesDisponiveis: [
+            "Vacina hepatite B (1°dose)",
+            "Vacina BCG (dose única)",
+            "Vacina penta (DTP+Hib+HB) (1ª dose)",
+            "Vacina poliomielite inativada VIP (1ª dose)",
+            "Vacina rotavírus humano (1ª dose)",
+            "Vacina pneumocócica 20-valente (1ª dose)",
+            "Vacina meningocócica C (1ª dose)"
+        ],
+        vacinasFaltantes: [
+            "Vacina meningocócica C (1ª dose)"
+        ]
+    },
+    {
+        id: 17,
+        nome: "Larissa Carvalho",
+        idade: "14 anos",
+        historico: "14 anos de idade, procurou a Unidade Básica de Saúde para a emissão de um atestado médico para prática de atividades esportivas na escola. Durante a avaliação clínica e o exame físico, o profissional de saúde aproveitou a oportunidade para verificar a caderneta de vacinação do adolescente e constatou que ele necessitava da terceira dose de reforço de uma vacina.",
+        opcoesDisponiveis: [
+            "Vacina dT (3ª dose reforços)",
+            "Vacina DTP (3ª dose reforços)",
+            "Vacina penta (DTP+Hib+HB) (3ª dose)",
+            "Poliomielite inativada VIP (3ª dose)"
+        ],
+        vacinasFaltantes: [
+            "Vacina dT (3ª dose reforços)"
+        ]
+    },
+    {
+        id: 6,
+        nome: "Rodrigo Costa",
+        idade: "6 meses",
+        historico: "A mãe traz o lactente à Unidade Básica de Saúde (UBS) para a consulta de acompanhamento de rotina. A carteira de vacinação está em dia até o 5º mês. Ela solicita a administração das vacinas correspondentes à idade atual.",
+        opcoesDisponiveis: [
+            "Vacina penta (DTP+Hib+HB) (3ª dose)",
+            "Vacina poliomielite inativada VIP (3ª dose)",
+            "Vacina influenza trivalente (1ª dose)",
+            "Vacina covid-19 (1ª dose)",
+            "Vacina rotavírus humano (2ª dose)",
+            "Vacina meningocócica C (2ª dose)"
+        ],
+        vacinasFaltantes: [
+            "Vacina penta (DTP+Hib+HB) (3ª dose)",
+            "Vacina poliomielite inativada VIP (3ª dose)",
+            "Vacina influenza trivalente (1ª dose)",
+            "Vacina covid-19 (1ª dose)"
+        ]
+    },
+    {
+        id: 10,
+        nome: "Ezequiel Nogueira",
+        idade: "12 meses",
+        historico: "Ezequiel completa seu primeiro ano de vida e comparece à Unidade Básica de Saúde (UBS), acompanhado de seus pais, para uma consulta de rotina. Durante o atendimento, o profissional de saúde verifica sua caderneta de vacinação e constata que as vacinas anteriores estão em dia. Diante disso, orienta a família sobre as vacinas recomendadas para os 12 meses de idade.",
+        opcoesDisponiveis: [
+            "Vacina febre amarela (1ª dose)",
+            "Vacina pneumocócica 20-valente (1 dose reforço)",
+            "Vacina poliomielite inativada VIP (1ª dose reforço)",
+            "Vacina tríplice viral SCR (1 dose)",
+            "Vacina DTP (1ª dose reforço)",
+            "Vacina meningocócica ACWY (1 dose)"
+        ],
+        vacinasFaltantes: [
+            "Vacina pneumocócica 20-valente (1 dose reforço)",
+            "Vacina tríplice viral SCR (1 dose)",
+            "Vacina meningocócica ACWY (1 dose)"
+        ]
+    },
+    {
+        id: 7,
+        nome: "André Costa",
+        idade: "7 meses",
+        historico: "Com 7 meses de idade, foi avaliado por um pediatra antes de uma viagem familiar para uma zona rural com intensa circulação do vírus da febre amarela. Diante do alto risco iminente de infecção e após pesar o risco de eventos adversos graves da vacina atenuada nessa faixa etária frente ao risco da doença, o profissional concluiu que o benefício superava o risco, solicitando esquema vacinal adequado.",
+        opcoesDisponiveis: [
+            "Vacina febre amarela (1 dose, para todas as crianças dessa faixa etária)",
+            "Vacina febre amarela (2 doses, em casos excepcionais)",
+            "Vacina febre amarela (3 doses, em casos excepcionais)",
+            "Vacina febre amarela (1 dose, em casos excepcionais)",
+            "Vacina febre amarela (2 doses, para todas as crianças dessa faixa etária)"
+        ],
+        vacinasFaltantes: [
+            "Vacina febre amarela (1 dose, em casos excepcionais)"
+        ]
+    },
+    {
+        id: 14,
+        nome: "Sofia Ribeiro",
+        idade: "9 anos",
+        historico: "Paciente comparece à Unidade Básica de Saúde (UBS) acompanhada pelo responsável para avaliação de rotina. A caderneta de vacinação encontra-se atualizada até os 5 anos de idade. O profissional de saúde verifica que há uma vacina específica recomendada para o início da proteção contra infecções virais frequentes nessa faixa etária.",
+        opcoesDisponiveis: [
+            "Vacina HPV4 (1 dose)",
+            "Vacina pneumocócica 20-valente (1 dose)",
+            "Vacina meningocócica ACWY (1 dose)",
+            "Vacina febre amarela (1 dose reforço)",
+            "Vacina varicela (2ª dose)",
+            "Vacina tríplice viral SCR (2ª dose)"
+        ],
+        vacinasFaltantes: [
+            "Vacina HPV4 (1 dose)"
+        ]
+    },
+    {
+        id: 4,
+        nome: "Pedro Henrique Lima",
+        idade: "4 meses",
+        historico: "Pedro comparece à Unidade Básica de Saúde (UBS), acompanhado de sua mãe, para consulta de rotina. A caderneta de vacinação mostra que ele recebeu as vacinas recomendadas ao nascer e aos 2 meses. Após conferir o histórico vacinal, o profissional de saúde identifica as vacinas indicadas para dar continuidade à proteção do bebê.",
+        opcoesDisponiveis: [
+            "Vacina penta (DTP+Hib+HB) (2ª dose)",
+            "Vacina poliomielite inativada VIP (2ª dose)",
+            "Vacina rotavírus humano (2ª dose)",
+            "Vacina meningocócica C (2ª dose)",
+            "Vacina penta (DTP+Hib+HB) (3ª dose)",
+            "Vacina pneumocócica 10-valente (2ª dose)"
+        ],
+        vacinasFaltantes: [
+            "Vacina penta (DTP+Hib+HB) (2ª dose)",
+            "Vacina poliomielite inativada VIP (2ª dose)",
+            "Vacina rotavírus humano (2ª dose)",
+            "Vacina pneumocócica 10-valente (2ª dose)"
+        ]
+    },
+    {
+        id: 16,
+        nome: "Beatriz Lima",
+        idade: "11 anos",
+        historico: "11 anos de idade, compareceu à Unidade Básica de Saúde acompanhado pelo responsável para a realização de exames de rotina solicitados pela escola. Durante a consulta de atendimento geral, o profissional de saúde revisou o cartão de vacinação do adolescente e identificou que a dose de reforço de uma vacina estava indicada para a faixa etária.",
+        opcoesDisponiveis: [
+            "Vacina pneumocócica 20-valente (2 doses)",
+            "COVID-19 (2ª dose)",
+            "Vacina penta (DTP+Hib+HB) (1ª dose)",
+            "Poliomielite inativada VIP (3ª dose)",
+            "Vacina meningocócica ACWY (1 dose)",
+            "Vacina pneumocócica 20-valente (1 dose)"
+        ],
+        vacinasFaltantes: [
+            "Vacina meningocócica ACWY (1 dose)"
+        ]
+    },
+    {
+        id: 9,
+        nome: "Lorenzo",
+        idade: "9 meses",
+        historico: "Lorenzo de 9 meses de idade é levado à Unidade Básica de Saúde (UBS) pela mãe para uma consulta de puericultura. A criança apresenta crescimento e desenvolvimento adequados, não possui contraindicações conhecidas à vacinação e está com o calendário vacinal atualizado até os 7 meses. Durante a consulta, a mãe pergunta quais vacinas devem ser administradas naquele momento.",
+        opcoesDisponiveis: [
+            "Vacina tríplice viral (1ª dose)",
+            "Vacina febre amarela (1ª dose)",
+            "Vacina meningocócica C (1ª dose)",
+            "Vacina covid-19 (3ª dose)",
+            "Vacina DTP (1ª dose reforço)"
+        ],
+        vacinasFaltantes: [
+            "Vacina febre amarela (1ª dose)",
+            "Vacina covid-19 (3ª dose)"
+        ]
+    }
+];
 
     let pacienteAtual = null;
 
